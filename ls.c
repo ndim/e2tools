@@ -46,6 +46,7 @@
 #include <regex.h>
 #include <stdint.h>
 #include <inttypes.h>
+#include <linux/capability.h>
 
 /*
  * list directory
@@ -59,6 +60,7 @@
 #define CREATE_OPT  0x0020
 #define INODE_OPT   0x0040
 #define SELINUX_OPT 0x0080
+#define CAPS_OPT    0x0100
 
 #define DIRECTORY_TYPE -1
 #define NORMAL_TYPE 0
@@ -347,7 +349,7 @@ do_list_dir(int argc, char *argv[])
 #ifdef HAVE_OPTRESET
   optreset = 1;		/* Makes BSD getopt happy */
 #endif
-  while ((c = getopt (argc, argv, "acDd:filrtZ")) != EOF)
+  while ((c = getopt (argc, argv, "acDd:filrtZC")) != EOF)
     {
       switch (c)
         {
@@ -390,12 +392,15 @@ do_list_dir(int argc, char *argv[])
         case 'Z':
           ls.options |= SELINUX_OPT;
           break;
+        case 'C':
+          ls.options |= CAPS_OPT;
+          break;
         }
     }
 
   if (argc <= optind)
     {
-      fputs("Usage: e2ls [-acDfilrtZ][-d dir] file\n", stderr);
+      fputs("Usage: e2ls [-acDfilrtZC][-d dir] file\n", stderr);
       return(1);
     }
 
@@ -688,6 +693,36 @@ void long_disp(ls_file_t *info, int UNUSED_PARM(*col), int options)
            if (value_len)
              {
                printf(" %s ", val);
+               free(val);
+             }
+           else
+             printf(" - ");
+           ext2fs_xattrs_close(&handle);
+        }
+      else
+        printf(" - ");
+    }
+
+  if (options & CAPS_OPT)
+    {
+      struct ext2_xattr_handle *handle;
+      char *val;
+      size_t value_len = 0;
+      ext2fs_xattrs_open(fs, info->inode_num, &handle);
+      if (handle)
+        {
+           ext2fs_xattrs_read(handle);
+           ext2fs_xattr_get(handle, "security.capability", (void**)&val, &value_len);
+           if (value_len == 20)
+             {
+               struct vfs_cap_data *cap;
+               cap = (struct vfs_cap_data*) val;
+               printf(" 0x%x,", cap->magic_etc);
+               for (int i = 0; i < 2; i++) {
+                 if (i > 0)
+                  printf(",");
+                 printf("0x%x,0x%x", cap->data[i].permitted, cap->data[i].inheritable);
+               }
                free(val);
              }
            else
