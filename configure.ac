@@ -55,7 +55,7 @@ AS_VAR_IF([DD], [], [dnl
 AC_MSG_CHECKING([DD value to be used])
 AC_MSG_RESULT([$DD])
 AM_CONDITIONAL([HAVE_DD_COMMAND],
-               [test "x$DD" != "x" && test "x$DD" != "xno"])
+               [test "x$DD" != x && test "x$DD" != xno])
 
 AC_ARG_VAR([MKE2FS], [mke2fs or mkfs.ext2 command])
 AS_VAR_IF([MKE2FS], [], [dnl
@@ -64,7 +64,7 @@ AS_VAR_IF([MKE2FS], [], [dnl
 AC_MSG_CHECKING([MKE2FS value to be used])
 AC_MSG_RESULT([$MKE2FS])
 AM_CONDITIONAL([HAVE_MKE2FS_COMMAND],
-               [test "x$MKE2FS" != "x" && test "x$MKE2FS" != "xno"])
+               [test "x$MKE2FS" != x && test "x$MKE2FS" != xno])
 
 
 dnl ====================================================================
@@ -143,7 +143,7 @@ AC_CHECK_LIB([ext2fs], [ext2fs_xattrs_read],
 CFLAGS="$orig_CFLAGS"
 LIBS="$orig_LIBS"
 
-AM_CONDITIONAL([HAVE_EXT2FS_XATTRS], [test "x$have_ext2fs_xattrs" = "xyes"])
+AM_CONDITIONAL([HAVE_EXT2FS_XATTRS], [test "x$have_ext2fs_xattrs" = xyes])
 AM_COND_IF([HAVE_EXT2FS_XATTRS], [dnl
   AC_DEFINE([HAVE_EXT2FS_XATTRS], [1],
             [Defined if libext2fs implements ext2fs_xattrs_read])
