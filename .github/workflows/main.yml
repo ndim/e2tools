@@ -59,7 +59,8 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           brew install autoconf automake pkg-config e2fsprogs
-          echo PKG_CONFIG_PATH="/opt/homebrew/opt/e2fsprogs/lib/pkgconfig" >> $GITHUB_ENV
+          echo PATH="/opt/homebrew/opt/e2fsprogs/bin:/opt/homebrew/opt/e2fsprogs/sbin:$PATH" >> $GITHUB_ENV
+          echo PKG_CONFIG_PATH="/opt/homebrew/opt/e2fsprogs/lib/pkgconfig${PKG_CONFIG_PATH+":$PKG_CONFIG_PATH"}" >> $GITHUB_ENV
 
       # - name: 'OS specific build flags (Linux)'
       #   if: runner.os == 'Linux'
