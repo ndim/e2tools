@@ -60,7 +60,7 @@ include tests/include.am
 # .in replacement rules
 ########################################################################
 
-HASHMARK = \#
+# Makefiles cannot portably define hash marks, so we AC_SUBST HASHMARK
 
 if HAVE_EXT2FS_XATTRS
 sed_in_commands += -e 's|[@]HAVE_EXT2FS_XATTRS_MAN_FALSE@||g'
