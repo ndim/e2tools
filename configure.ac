@@ -134,8 +134,8 @@ dnl Check whether libext2fs implements ext2fs_xattrs_read() function
 dnl ====================================================================
 orig_CFLAGS="$CFLAGS"
 orig_LIBS="$LIBS"
-CFLAGS="$CFLAGS $EXT2FS_CFLAGS"
-LIBS="$LIBS $EXT2FS_LIBS"
+CFLAGS="$CFLAGS $COM_ERR_CFLAGS $EXT2FS_CFLAGS"
+LIBS="$LIBS $COM_ERR_LIBS $EXT2FS_LIBS"
 
 AC_CHECK_LIB([ext2fs], [ext2fs_xattrs_read],
              [have_ext2fs_xattrs=yes], [have_ext2fs_xattrs=no])
