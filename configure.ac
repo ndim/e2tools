@@ -10,10 +10,12 @@ dnl   2012-04-24  autoconf 2.69    Latest release for a loooong time
 dnl
 dnl   2005-07-10  automake 1.9.6   Original e2tools requirement
 dnl   2009-05-17  automake 1.11    Adds AM_SILENT_RULES and silent-rules
+dnl   2012-04-25  automake 1.12    About the time of autoconf 2.69
+dnl   2013-06-20  automake 1.14    Introduces %reldir%
 dnl   2024-07-11  automake 1.17    Requires -Wno-portability for # in make vars
 dnl
 dnl ====================================================================
-AC_PREREQ(2.59)
+AC_PREREQ([2.69])
 AC_INIT([e2tools],
         [0.1.3],
         [https://github.com/e2tools/e2tools/issues],
@@ -24,11 +26,11 @@ AC_CONFIG_HEADER([e2tools-autoconfig.h])
 AC_CONFIG_SRCDIR([src/e2tools.c])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([
--Wall
--Werror
-1.9.6
-foreign
-subdir-objects
+  -Wall
+  -Werror
+  1.14
+  foreign
+  subdir-objects
 ])
 
 
