@@ -81,7 +81,7 @@ jobs:
         run: set -x; ${ci_MAKE} CPPFLAGS="${OS_SPECIFIC_CPPFLAGS}"
 
       - name: 'make check'
-        run: set -x; ${ci_MAKE} CPPFLAGS="${OS_SPECIFIC_CPPFLAGS}" check
+        run: set -x; if ${ci_MAKE} CPPFLAGS="${OS_SPECIFIC_CPPFLAGS}" check; then :; else cat test-suite.log; exit 1; fi
 
       - name: 'make distcheck'
         run: set -x; ${ci_MAKE} CPPFLAGS="${OS_SPECIFIC_CPPFLAGS}" DISTCHECK_CONFIGURE_FLAGS="${COMMON_CONFIGURE_FLAGS}" distcheck
