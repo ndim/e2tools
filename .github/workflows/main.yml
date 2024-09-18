@@ -91,3 +91,42 @@ jobs:
 
       - name: 'make installcheck'
         run: set -x; ${ci_MAKE} CPPFLAGS="${OS_SPECIFIC_CPPFLAGS}" installcheck
+
+  msys2:
+
+    runs-on: windows-latest
+
+    name: "msys2 ${{matrix.sys}} ${{matrix.env}} ${{matrix.autoconf}} ${{matrix.automake}}"
+
+    defaults:
+      run:
+        shell: msys2 {0}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # - { sys: mingw64, env: x86_64 }
+          # - { sys: clang64, env: clang-x86_64 }
+          - { sys: ucrt64, env: ucrt-x86_64, autoconf: 2.69, automake: 1.14 }
+          - { sys: ucrt64, env: ucrt-x86_64, autoconf: 2.72, automake: 1.16 }
+          - { sys: ucrt64, env: ucrt-x86_64, autoconf: 2.72, automake: 1.17 }
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: ${{matrix.sys}}
+          update: true
+          install: >-
+            base-devel
+            autotools
+
+      - name: 'Select autotools versions'
+        run: |
+          echo WANT_AUTOCONF=${{matrix.autoconf}} >> $GITHUB_ENV
+          echo WANT_AUTOMAKE=${{matrix.automake}} >> $GITHUB_ENV
+
+      - name: 'autoreconf'
+        run: autoreconf -v -i -f -Wall
