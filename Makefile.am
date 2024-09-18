@@ -81,14 +81,14 @@ sed_in_commands += -e 's|[@]MKE2FS@|$(MKE2FS)|g'
 
 SUFFIXES += .1.in .1
 .1.in.1:
-	$(MKDIR_P) $(@D)
-	$(SED) $(sed_in_commands) < $< > $@
+	@$(MKDIR_P) $(@D)
+	$(AM_V_GEN)$(SED) $(sed_in_commands) < $< > $@
 
 SUFFIXES += .sh.in .sh
 .sh.in.sh:
-	$(MKDIR_P) $(@D)
-	$(SED) $(sed_in_commands) < $< > $@
-	$(CHMOD) +x $@
+	@$(MKDIR_P) $(@D)
+	$(AM_V_GEN)$(SED) $(sed_in_commands) < $< > $@
+	@$(CHMOD) +x $@
 
 
 ########################################################################

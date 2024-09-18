@@ -33,6 +33,8 @@ AM_INIT_AUTOMAKE([
   subdir-objects
 ])
 
+AM_SILENT_RULES([yes])
+
 
 dnl ====================================================================
 dnl Checks for programs.
