@@ -15,11 +15,11 @@ env:
     --disable-silent-rules
 
 jobs:
-  amb:
+  ix:
 
     runs-on: ${{ matrix.os }}
 
-    name: 'amb ${{ matrix.os }}'
+    name: 'x ${{ matrix.os }}'
 
     strategy:
       fail-fast: true
@@ -96,7 +96,7 @@ jobs:
 
     runs-on: windows-latest
 
-    name: "msys2 ${{matrix.sys}} ${{matrix.env}} ${{matrix.autoconf}} ${{matrix.automake}}"
+    name: "w ${{matrix.autoconf}} ${{matrix.automake}} ${{matrix.sys}} ${{matrix.env}}"
 
     defaults:
       run:
