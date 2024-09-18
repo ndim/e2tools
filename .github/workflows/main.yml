@@ -75,7 +75,7 @@ jobs:
         run: autoreconf -v -i -f
 
       - name: 'configure'
-        run: ./configure ${COMMON_CONFIGURE_FLAGS} --prefix=$PWD/__prefix
+        run: if ./configure ${COMMON_CONFIGURE_FLAGS} --prefix=$PWD/__prefix; then :; else cat config.log; exit 1; fi
 
       - name: 'make'
         run: set -x; ${ci_MAKE} CPPFLAGS="${OS_SPECIFIC_CPPFLAGS}"
